@@ -15,6 +15,7 @@ class VM:
         self.jobQueue = []
         self.timeStep = 0
         self.completedJobQueue = []
+        self.remainingExecutionTime = 0
     
     def getCompletedJobQueue(self):
         return self.completedJobQueue 
@@ -28,8 +29,25 @@ class VM:
     def getJobList(self):
         return [(j.getId(),j.getjSize()) for j in self.jobQueue]
     
+    def getRemainingExecutionTime(self):   
+        self.remainingExecutionTime = 0
+        for job in self.jobQueue:
+            if job.jType==0:
+                self.remainingExecutionTime += job.jSize/self.vIO
+            else:
+                self.remainingExecutionTime += job.jSize/self.vComp
+        return self.remainingExecutionTime
+        
     def jobListEmpty(self):
-        if len(self.jobQueue)==0:
+        '''
+        setOfCompletedJobs = set(self.completedJobQueue)
+        tempList = [x for x in self.jobQueue if x not in setOfCompletedJobs]
+        if len(tempList)==0:
+            return True
+        else:
+            return False
+        '''
+        if self.jobQueue[len(self.jobQueue)-1].jSize==0:
             return True
         else:
             return False

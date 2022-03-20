@@ -40,11 +40,12 @@ class Job:
         
     def updateResponseTime(self):
         self.jobResponseTime = self.waitTime + self.executionTime
-        with open('responsetimes.csv', 'a',newline='',) as f_object:
+
+        with open('responsetimes_earliest.csv', 'a',newline='',) as f_object:
             writer_object = writer(f_object)
             writer_object.writerow([self.id,self.arrivalT,self.jobResponseTime])
             f_object.close()
-        
+            
     def getDetails(self):
         return str(self.id)+" "+str(self.arrivalT)+" "+str(self.jType)+" "+str(self.jSize)
 

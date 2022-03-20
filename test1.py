@@ -3,6 +3,7 @@ from read_dataset import get0TimeStepJobs
 from Job import Job
 from statistics import mean
 import matplotlib.pyplot as plt
+import random
 
 resourcePool = getResourcePool()
 
@@ -35,16 +36,33 @@ for i in range(0,203,1):
             jobList.append(Job(row.id,row.timestamp,row.type,row.rounded_load))
     
     for job in jobList:
-        VMList[k].assignJob(job)
-        k=k+1
-        k=k%10
+        waitingTimes = []
+        for vm in VMList:
+            waitingTimes.append(vm.getRemainingExecutionTime())
+        j=0
+        for k,wt in enumerate(waitingTimes):
+            if wt < waitingTimes[j]:
+                j=k
+        VMList[j].assignJob(job)
         
     for vm in VMList:
         vm.processJobs()
 
 for i in VMList:
     i.printCurrentJobList()
-    
+
+for vm in VMList:
+    if vm.jobListEmpty():
+        print("VM ",vm.getId(),": done")
+    else:
+        print(print("VM ",vm.getId(),": not completed"))
+
+'''
+isDone = 0
+while isDone==0:
+    for vm in VMList:
+        
+'''   
 '''        
 #print("\nRemaining jobs")
 #for i in VMList:
