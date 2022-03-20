@@ -33,8 +33,9 @@ class VM:
             return True
         else:
             return False
-    
-    def processJobs(self):
+        
+    def printCurrentJobList(self):
+        '''
         if self.timeStep%5==0:
             tempList = [job for job in self.jobQueue if job.jSize>0]
             print("VM ",self.id," :",end="\n")
@@ -43,6 +44,14 @@ class VM:
                 print(job.id,",",job.jSize,end="",sep="")
                 print(")",end="",sep="")
             print()
+        '''
+        print("\n\nVM ",self.id,end="\n")
+        for job in self.jobQueue:
+            print("[",end="",sep="")
+            print(job.id,",",job.jSize,end="",sep="")
+            print("]",end="",sep="")
+            
+    def processJobs(self):
         for j in self.jobQueue:
             if j.jType==1:
                 j.updateExecutionTime(j.jSize/self.vComp)
@@ -126,5 +135,5 @@ IOI_VM_test_Objs=[VM(i,0,j,k) for i,j,k in IOI_VM_test]
 #   print(i.id,i.VMtype,i.vComp,i.vIO,sep=" ");
     
 def getResourcePool():
-    return CI_VM_test_Objs+IOI_VM_test_Objs
+    return CI_VM_Objs+IOI_VM_Objs
     

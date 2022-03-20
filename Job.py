@@ -4,7 +4,8 @@ Created on Tue Mar  8 15:33:49 2022
 
 @author: Akarsh Reddy
 """
-
+from csv import writer
+    
 class Job:
     def __init__(self, id, arrivalT, jType, jSize):
         self.id= id
@@ -39,6 +40,10 @@ class Job:
         
     def updateResponseTime(self):
         self.jobResponseTime = self.waitTime + self.executionTime
+        with open('responsetimes.csv', 'a',newline='',) as f_object:
+            writer_object = writer(f_object)
+            writer_object.writerow([self.id,self.arrivalT,self.jobResponseTime])
+            f_object.close()
         
     def getDetails(self):
         return str(self.id)+" "+str(self.arrivalT)+" "+str(self.jType)+" "+str(self.jSize)
